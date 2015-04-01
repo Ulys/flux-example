@@ -25,5 +25,13 @@ module.exports = {
         AppDispatcher.dispatch( {
             actionType: AppConstants.ADD_CONTACT
         } );
+    },
+
+    editContact: function( id, newValue ) {
+        AppDispatcher.dispatch( {
+            actionType: AppConstants.UPDATE_CONTACT,
+            id: id,
+            value: newValue
+        } );
     }
 };
