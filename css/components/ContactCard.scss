@@ -1,0 +1,73 @@
+
+.CA-card {
+
+  flex: 3 auto;
+  order: 1;
+
+  min-height: 700px;
+
+  display: flex;
+
+  flex-wrap: wrap;
+
+  &__photo {
+
+    flex: 1 50%;
+
+    & > img {
+
+      height: 150px;
+      width: 150px;
+
+    }
+  }
+
+  &__info {
+    flex: 1 50%;
+
+    color: #000;
+    &__first {
+
+      line-height: 40px;
+      vertical-align: middle;
+
+      & > .content {
+
+        font-weight: bold;
+      }
+    }
+
+    &__second {
+      line-height: 40px;
+      vertical-align: middle;
+
+      & > .content {
+
+        font-weight: bold;
+      }
+    }
+
+    &__company {
+      line-height: 32px;
+      vertical-align: middle;
+
+      color: #666666;
+
+      & > .content {
+
+        font-weight: bold;
+      }
+    }
+  }
+
+  &__phones {
+
+    width: 100%;
+
+    list-style: none;
+
+    line-height: 38px;
+    vertical-align: middle;
+
+  }
+}

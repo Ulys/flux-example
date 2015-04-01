@@ -1,0 +1,38 @@
+{
+  "name": "contact-list",
+  "version": "0.0.1",
+  "description": "Example Flux architecture.",
+  "repository": "",
+  "main": "",
+  "dependencies": {
+    "flux": "^2.0.1",
+    "keymirror": "~0.1.0",
+    "object-assign": "^1.0.0",
+    "react": "^0.12.0"
+  },
+  "devDependencies": {
+    "browserify": "^6.2.0",
+    "classnames": "^1.2.0",
+    "envify": "^3.0.0",
+    "gulp": "^3.8.11",
+    "gulp-autoprefixer": "^2.1.0",
+    "gulp-babel": "^4.0.0",
+    "gulp-browserify": "^0.5.1",
+    "gulp-rename": "^1.2.0",
+    "gulp-sass": "^1.3.3",
+    "gulp-uglify": "^1.1.0",
+    "gulp-util": "^3.0.4",
+    "jest-cli": "~0.1.17",
+    "jquery": "^2.1.3",
+    "node-notifier": "^4.1.2",
+    "reactify": "^0.15.2",
+    "uglify-js": "~2.4.15",
+    "watchify": "^2.1.1"
+  },
+  "browserify": {
+    "transform": [
+      "reactify",
+      "envify"
+    ]
+  }
+}

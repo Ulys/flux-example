@@ -1,0 +1,112 @@
+body, html {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; }
+
+.CA-wrapper {
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: row;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  padding-top: 20px; }
+
+.CA-card {
+  -webkit-flex: 3 auto;
+      -ms-flex: 3 auto;
+          flex: 3 auto;
+  -webkit-order: 1;
+      -ms-flex-order: 1;
+          order: 1;
+  min-height: 700px;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-wrap: wrap;
+      -ms-flex-wrap: wrap;
+          flex-wrap: wrap; }
+  .CA-card__photo {
+    -webkit-flex: 1 50%;
+        -ms-flex: 1 50%;
+            flex: 1 50%; }
+    .CA-card__photo > img {
+      height: 150px;
+      width: 150px; }
+  .CA-card__info {
+    -webkit-flex: 1 50%;
+        -ms-flex: 1 50%;
+            flex: 1 50%;
+    color: #000; }
+    .CA-card__info__first {
+      line-height: 40px;
+      vertical-align: middle; }
+      .CA-card__info__first > .content {
+        font-weight: bold; }
+    .CA-card__info__second {
+      line-height: 40px;
+      vertical-align: middle; }
+      .CA-card__info__second > .content {
+        font-weight: bold; }
+    .CA-card__info__company {
+      line-height: 32px;
+      vertical-align: middle;
+      color: #666666; }
+      .CA-card__info__company > .content {
+        font-weight: bold; }
+  .CA-card__phones {
+    width: 100%;
+    list-style: none;
+    line-height: 38px;
+    vertical-align: middle; }
+
+.CA-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  -webkit-flex: 1 auto;
+      -ms-flex: 1 auto;
+          flex: 1 auto;
+  -webkit-order: 2;
+      -ms-flex-order: 2;
+          order: 2;
+  border: 2px solid grey;
+  background: black;
+  border-right: none; }
+  .CA-list__item {
+    height: 40px;
+    padding-left: 10px;
+    line-height: 40px;
+    font-weight: bold;
+    vertical-align: middle;
+    background: #fff;
+    transition: all linear 0.1s; }
+    .CA-list__item:hover {
+      color: #fff;
+      background: #000; }
+    .CA-list__item_chosen {
+      color: red; }
+
+.CA-deleteButton {
+  width: 100px;
+  height: 75px;
+  line-height: 75px;
+  vertical-align: middle;
+  text-align: center;
+  background: linear-gradient(to bottom, lightcoral, red);
+  border-radius: 10px;
+  box-shadow: 3px 2px 10px #666666;
+  color: #fff;
+  font-weight: bold;
+  margin-left: 40px; }
+
+.CA-newButton {
+  width: 100px;
+  height: 75px;
+  line-height: 75px;
+  vertical-align: middle;
+  text-align: center;
+  background: linear-gradient(to bottom, lightgreen, darkgreen);
+  border-radius: 10px;
+  box-shadow: 3px 2px 10px #666666;
+  color: #fff;
+  font-weight: bold;
+  margin-left: 40px; }

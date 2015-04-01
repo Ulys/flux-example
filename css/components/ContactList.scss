@@ -1,0 +1,40 @@
+
+.CA-list {
+
+  list-style: none;
+  padding: 0;
+  margin: 0;
+
+  flex: 1 auto;
+  order: 2;
+
+  border: 2px solid grey;
+  background: black;
+  border-right: none;
+
+  &__item {
+
+    height: 40px;
+    padding-left: 10px;
+    line-height: 40px;
+
+
+    font-weight: bold;
+
+    vertical-align: middle;
+
+    background: #fff;
+
+    transition: all linear 0.1s;
+
+    &:hover {
+
+      color: #fff;
+      background: #000;
+    }
+
+    &_chosen {
+      color: red;
+    }
+  }
+}
