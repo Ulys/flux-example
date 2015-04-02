@@ -27,11 +27,15 @@ module.exports = {
         } );
     },
 
-    editContact: function( id, newValue ) {
+    updateContact: function( id, property, newValue ) {
         AppDispatcher.dispatch( {
             actionType: AppConstants.UPDATE_CONTACT,
             id: id,
-            value: newValue
+            options: {
+                id: id,
+                property: property,
+                value: newValue
+            }
         } );
     }
 };

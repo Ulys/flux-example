@@ -50,7 +50,7 @@ var AppDispatcher = require( '../dispatcher/dispatcher.js' ),
         }
     ],
     CHANGE_EVENT = 'CHANGE_EVENT',
-    ContacStore;
+    ContactStore;
 
 function changeCurrentContact( id ) {
 
@@ -70,14 +70,28 @@ function removeContact( id ) {
 
 function addContact() {
 
+    currentContact = utils.getId();
+
     contacts.push( {
-        id: utils.getId(),
-        firstName: 'Mina',
-        secondName: 'Razumovskyi',
-        phones: ['phone1', 'phone3'],
-        company: 'EPAM'
+        id: currentContact,
+        firstName: '',
+        secondName: '',
+        phones: [ 'phone1' ],
+        company: ''
     } );
 }
+
+function updateContact( options ) {
+
+    contacts = contacts.map( function( contact ) {
+
+        if ( contact.id === options.id ) {
+            contact[ options.property ] = options.value
+        }
+        return contact;
+    } );
+}
+
 ContactStore = assign( {}, EventEmitter.prototype, {
 
     getAllContacts: function() {
@@ -117,8 +131,11 @@ AppDispatcher.register( function( action ) {
             addContact();
             ContactStore.emitChange();
             break;
+        case AppConstants.UPDATE_CONTACT:
+            updateContact( action.options );
+            ContactStore.emitChange();
+            break;
         default:
-            ContacStore.emitChange();
             break;
     }
 } );

@@ -28,11 +28,15 @@ module.exports = {
         } );
     },
 
-    editContact: function( id, newValue ) {
+    updateContact: function( id, property, newValue ) {
         AppDispatcher.dispatch( {
             actionType: AppConstants.UPDATE_CONTACT,
             id: id,
-            value: newValue
+            options: {
+                id: id,
+                property: property,
+                value: newValue
+            }
         } );
     }
 };
@@ -134,14 +138,15 @@ module.exports = React.createClass( {displayName: "exports",
             React.createElement("div", {className: "CA-card"}, 
                 React.createElement(ContactCardPhoto, null), 
                 React.createElement(ContactCardInfo, {
-                    firstName: this.props.contact.firstName, 
-                    secondName: this.props.contact.secondName, 
-                    company: this.props.contact.company}
+                    id:  this.props.contact.id, 
+                    firstName:  this.props.contact.firstName, 
+                    secondName:  this.props.contact.secondName, 
+                    company:  this.props.contact.company}
                 ), 
                 React.createElement(ContactCardPhones, {
-                    phones: this.props.contact.phones}
+                    phones:  this.props.contact.phones}
                 ), 
-                React.createElement(DeleteButton, {id: this.props.contact.id}), 
+                React.createElement(DeleteButton, {id:  this.props.contact.id}), 
                 React.createElement(AddContactButton, null)
             )
         );
@@ -163,14 +168,15 @@ module.exports = React.createClass( {displayName: "exports",
         }
     },
 
-    propTypes: {
-
-        firstName: React.PropTypes.string.isRequired
+    componentDidMount: function () {
+        this.setState( {
+            editable: !!this.props.firstName
+        } );
     },
 
-    _onChange: function() {
+    _onChange: function( property, event ) {
 
-        AppActions.editContact( this.prop.id );
+        AppActions.updateContact( this.props.id, property, event.target.value );
     },
 
     _edit: function() {
@@ -188,6 +194,7 @@ module.exports = React.createClass( {displayName: "exports",
                 React.createElement("div", {className: "CA-card__info__row"}, 
                     React.createElement("label", {className: "CA-card__info__first"}, "First Name: "), 
                     React.createElement("input", {type: "text", className: "content", 
+                        onChange:  this._onChange.bind( this, 'firstName'), 
                         value:  this.props.firstName, 
                         disabled:  !this.state.editable}
                     )
@@ -195,6 +202,7 @@ module.exports = React.createClass( {displayName: "exports",
                 React.createElement("div", {className: "CA-card__info__row"}, 
                     React.createElement("label", {className: "CA-card__info__second"}, "Second Name: "), 
                     React.createElement("input", {type: "text", className: "content", 
+                        onChange:  this._onChange.bind( this, 'secondName'), 
                         value:  this.props.secondName, 
                         disabled:  !this.state.editable}
                     )
@@ -202,6 +210,7 @@ module.exports = React.createClass( {displayName: "exports",
                 React.createElement("div", {className: "CA-card__info__row"}, 
                     React.createElement("label", {className: "CA-card__info__company"}, "Company: "), 
                     React.createElement("input", {type: "text", className: "content", 
+                        onChange:  this._onChange.bind( this, 'company'), 
                         value:  this.props.company, 
                         disabled:  !this.state.editable}
                     )
@@ -456,7 +465,7 @@ var AppDispatcher = require( '../dispatcher/dispatcher.js' ),
         }
     ],
     CHANGE_EVENT = 'CHANGE_EVENT',
-    ContacStore;
+    ContactStore;
 
 function changeCurrentContact( id ) {
 
@@ -476,14 +485,28 @@ function removeContact( id ) {
 
 function addContact() {
 
+    currentContact = utils.getId();
+
     contacts.push( {
-        id: utils.getId(),
-        firstName: 'Mina',
-        secondName: 'Razumovskyi',
-        phones: ['phone1', 'phone3'],
-        company: 'EPAM'
+        id: currentContact,
+        firstName: '',
+        secondName: '',
+        phones: [ 'phone1' ],
+        company: ''
     } );
 }
+
+function updateContact( options ) {
+
+    contacts = contacts.map( function( contact ) {
+
+        if ( contact.id === options.id ) {
+            contact[ options.property ] = options.value
+        }
+        return contact;
+    } );
+}
+
 ContactStore = assign( {}, EventEmitter.prototype, {
 
     getAllContacts: function() {
@@ -523,8 +546,11 @@ AppDispatcher.register( function( action ) {
             addContact();
             ContactStore.emitChange();
             break;
+        case AppConstants.UPDATE_CONTACT:
+            updateContact( action.options );
+            ContactStore.emitChange();
+            break;
         default:
-            ContacStore.emitChange();
             break;
     }
 } );

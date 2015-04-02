@@ -13,14 +13,15 @@ module.exports = React.createClass( {
             <div className = 'CA-card'>
                 <ContactCardPhoto/>
                 <ContactCardInfo
-                    firstName = {this.props.contact.firstName}
-                    secondName = {this.props.contact.secondName}
-                    company = {this.props.contact.company}
+                    id = { this.props.contact.id }
+                    firstName = { this.props.contact.firstName }
+                    secondName = { this.props.contact.secondName }
+                    company = { this.props.contact.company }
                 />
                 <ContactCardPhones
-                    phones = {this.props.contact.phones}
+                    phones = { this.props.contact.phones }
                 />
-                <DeleteButton id = {this.props.contact.id}  />
+                <DeleteButton id = { this.props.contact.id }  />
                 <AddContactButton/>
             </div>
         );
