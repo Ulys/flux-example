@@ -18,29 +18,42 @@ body, html {
       -ms-flex-order: 1;
           order: 1;
   min-height: 700px;
+  min-width: 600px;
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
   -webkit-flex-wrap: wrap;
       -ms-flex-wrap: wrap;
-          flex-wrap: wrap; }
+          flex-wrap: wrap;
+  margin: 20px;
+  border-radius: 50px;
+  border: 2px solid salmon; }
   .CA-card__photo {
     -webkit-flex: 1 50%;
         -ms-flex: 1 50%;
-            flex: 1 50%; }
+            flex: 1 50%;
+    position: relative; }
     .CA-card__photo > img {
       height: 150px;
-      width: 150px; }
+      width: 150px;
+      position: absolute;
+      margin: auto;
+      right: 0;
+      left: 0;
+      top: 0;
+      bottom: 0; }
   .CA-card__info {
     -webkit-flex: 1 50%;
         -ms-flex: 1 50%;
             flex: 1 50%;
-    color: #000; }
+    color: #000;
+    padding-top: 50px; }
     .CA-card__info__first {
       line-height: 40px;
       vertical-align: middle; }
-      .CA-card__info__first > .content {
-        font-weight: bold; }
+    .CA-card__info__row > .content {
+      font-weight: bold;
+      width: 90%; }
     .CA-card__info__second {
       line-height: 40px;
       vertical-align: middle; }
@@ -61,7 +74,7 @@ body, html {
 .CA-list {
   list-style: none;
   padding: 0;
-  margin: 0;
+  margin: 20px 0;
   -webkit-flex: 1 auto;
       -ms-flex: 1 auto;
           flex: 1 auto;
@@ -70,7 +83,8 @@ body, html {
           order: 2;
   border: 2px solid grey;
   background: black;
-  border-right: none; }
+  border-right: none;
+  min-width: 100px; }
   .CA-list__item {
     height: 40px;
     padding-left: 10px;
@@ -78,7 +92,12 @@ body, html {
     font-weight: bold;
     vertical-align: middle;
     background: #fff;
-    transition: all linear 0.1s; }
+    transition: all linear 0.1s;
+    max-width: 300px;
+    min-width: 100px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden; }
     .CA-list__item:hover {
       color: #fff;
       background: #000; }

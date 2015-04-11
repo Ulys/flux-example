@@ -17,9 +17,7 @@ module.exports = React.createClass( {
                     firstName = { this.props.contact.firstName }
                     secondName = { this.props.contact.secondName }
                     company = { this.props.contact.company }
-                />
-                <ContactCardPhones
-                    phones = { this.props.contact.phones }
+                    isEditable = { this.props.isEditable }
                 />
                 <DeleteButton id = { this.props.contact.id }  />
                 <AddContactButton/>

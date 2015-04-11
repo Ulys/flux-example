@@ -24,15 +24,6 @@ module.exports = React.createClass( {
         AppActions.updateContact( this.props.id, property, event.target.value );
     },
 
-    _edit: function() {
-
-        this.setState(
-            {
-                editable: !this.state.editable
-            }
-        );
-    },
-
     render: function() {
         return (
             <div className = 'CA-card__info'>
@@ -41,7 +32,7 @@ module.exports = React.createClass( {
                     <input type='text' className = 'content'
                         onChange = { this._onChange.bind( this, 'firstName' ) }
                         value = { this.props.firstName }
-                        disabled = { !this.state.editable }
+                        disabled = { !this.props.isEditable }
                     />
                 </div>
                 <div className="CA-card__info__row">
@@ -49,7 +40,7 @@ module.exports = React.createClass( {
                     <input type='text' className = 'content'
                         onChange = { this._onChange.bind( this, 'secondName' ) }
                         value = { this.props.secondName }
-                        disabled = { !this.state.editable }
+                        disabled = { !this.props.isEditable }
                     />
                 </div>
                 <div className="CA-card__info__row">
@@ -57,12 +48,11 @@ module.exports = React.createClass( {
                     <input type='text' className = 'content'
                         onChange = { this._onChange.bind( this, 'company' ) }
                         value = { this.props.company }
-                        disabled = { !this.state.editable }
+                        disabled = { !this.props.isEditable}
                     />
                 </div>
                 <div className="CA-card-info__row">
-                    <EditButton editable = { this.state.editable }
-                                callback = { this._edit }/>
+                    <EditButton isEditable = { this.props.isEditable } />
                 </div>
             </div>
         );

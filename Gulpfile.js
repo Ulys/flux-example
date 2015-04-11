@@ -22,6 +22,9 @@ gulp.task( 'styles', function() {
 
 	gulp.src( './css/main.scss' )
 		.pipe( sass() )
+        .on( 'error', function( err ) {
+            console.log( err.message );
+        } )
 		.pipe( autoprefixer( {
             browsers: [ 'last 2 version' ],
             cascade: true

@@ -37,5 +37,12 @@ module.exports = {
                 value: newValue
             }
         } );
+    },
+
+    toggleEdit: function( state ) {
+        AppDispatcher.dispatch( {
+            actionType: AppConstants.TOGGLE_EDIT,
+            newState: state
+        } );
     }
 };

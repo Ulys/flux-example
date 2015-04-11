@@ -38,6 +38,13 @@ module.exports = {
                 value: newValue
             }
         } );
+    },
+
+    toggleEdit: function( state ) {
+        AppDispatcher.dispatch( {
+            actionType: AppConstants.TOGGLE_EDIT,
+            newState: state
+        } );
     }
 };
 },{"../constants/constants":13,"../dispatcher/dispatcher.js":14}],2:[function(require,module,exports){
@@ -81,7 +88,8 @@ var React = require( 'react' ),
 function getAllContacts() {
     return {
         allContacts: ContactStore.getAllContacts(),
-        currentContact: ContactStore.getCurrentContact()
+        currentContact: ContactStore.getCurrentContact(),
+        isEditable: ContactStore.isEditable()
     }
 }
 
@@ -111,7 +119,8 @@ module.exports = React.createClass( {displayName: "exports",
                 React.createElement(ContactCard, {
                     contact:  this.state.allContacts.filter( ( function( element ) {
                         return element.id === this.state.currentContact;
-                    } ).bind( this ) )[ 0] }
+                    } ).bind( this ) )[ 0], 
+                    isEditable:  this.state.isEditable}
                 ), 
                 React.createElement(ContactList, {
                     contacts:  this.state.allContacts, 
@@ -141,10 +150,8 @@ module.exports = React.createClass( {displayName: "exports",
                     id:  this.props.contact.id, 
                     firstName:  this.props.contact.firstName, 
                     secondName:  this.props.contact.secondName, 
-                    company:  this.props.contact.company}
-                ), 
-                React.createElement(ContactCardPhones, {
-                    phones:  this.props.contact.phones}
+                    company:  this.props.contact.company, 
+                    isEditable:  this.props.isEditable}
                 ), 
                 React.createElement(DeleteButton, {id:  this.props.contact.id}), 
                 React.createElement(AddContactButton, null)
@@ -179,15 +186,6 @@ module.exports = React.createClass( {displayName: "exports",
         AppActions.updateContact( this.props.id, property, event.target.value );
     },
 
-    _edit: function() {
-
-        this.setState(
-            {
-                editable: !this.state.editable
-            }
-        );
-    },
-
     render: function() {
         return (
             React.createElement("div", {className: "CA-card__info"}, 
@@ -196,7 +194,7 @@ module.exports = React.createClass( {displayName: "exports",
                     React.createElement("input", {type: "text", className: "content", 
                         onChange:  this._onChange.bind( this, 'firstName'), 
                         value:  this.props.firstName, 
-                        disabled:  !this.state.editable}
+                        disabled:  !this.props.isEditable}
                     )
                 ), 
                 React.createElement("div", {className: "CA-card__info__row"}, 
@@ -204,7 +202,7 @@ module.exports = React.createClass( {displayName: "exports",
                     React.createElement("input", {type: "text", className: "content", 
                         onChange:  this._onChange.bind( this, 'secondName'), 
                         value:  this.props.secondName, 
-                        disabled:  !this.state.editable}
+                        disabled:  !this.props.isEditable}
                     )
                 ), 
                 React.createElement("div", {className: "CA-card__info__row"}, 
@@ -212,12 +210,11 @@ module.exports = React.createClass( {displayName: "exports",
                     React.createElement("input", {type: "text", className: "content", 
                         onChange:  this._onChange.bind( this, 'company'), 
                         value:  this.props.company, 
-                        disabled:  !this.state.editable}
+                        disabled:  !this.props.isEditable}
                     )
                 ), 
                 React.createElement("div", {className: "CA-card-info__row"}, 
-                    React.createElement(EditButton, {editable:  this.state.editable, 
-                                callback:  this._edit})
+                    React.createElement(EditButton, {isEditable:  this.props.isEditable})
                 )
             )
         );
@@ -356,34 +353,19 @@ module.exports = React.createClass( {displayName: "exports",
 } );
 },{"../actions/actions.js":1,"react":169}],12:[function(require,module,exports){
 
-var React = require( 'react' );
+var React = require( 'react' ),
+    AppActions = require( '../actions/actions' );
 
 module.exports = React.createClass( {displayName: "exports",
 
     propTypes: {
 
-    },
-
-    getInitialState: function() {
-        return {
-            editable: false
-        }
-    },
-
-    componentWillMount: function() {
-
-        this.setState( {
-            editable: this.props.editable
-        } );
+        isEditable: React.PropTypes.bool
     },
 
     _onClick: function() {
 
-        this.setState( {
-            editable: !this.state.editable
-        } );
-
-        this.props.callback();
+        AppActions.toggleEdit();
     },
 
     render: function() {
@@ -391,20 +373,21 @@ module.exports = React.createClass( {displayName: "exports",
         return (
             React.createElement("div", {className: "CA-editButton", 
                 onClick:  this._onClick}, 
-                 !this.state.editable ? 'Edit' : 'Save'
+                 this.props.isEditable ? 'Save' : 'Edit'
             )
         );
     }
 
 } );
-},{"react":169}],13:[function(require,module,exports){
+},{"../actions/actions":1,"react":169}],13:[function(require,module,exports){
 
 module.exports = {
 
     CHANGE_CURRENT_CONTACT: 'CHANGE_CURRENT_CONTACT',
     UPDATE_CONTACT: 'UPDATE_CONTACT',
     DELETE_CONTACT: 'DELETE_CONTACT',
-    ADD_CONTACT: 'ADD_CONTACT'
+    ADD_CONTACT: 'ADD_CONTACT',
+    TOGGLE_EDIT: 'TOGGLE_EDIT'
 };
 },{}],14:[function(require,module,exports){
 
@@ -465,6 +448,7 @@ var AppDispatcher = require( '../dispatcher/dispatcher.js' ),
         }
     ],
     CHANGE_EVENT = 'CHANGE_EVENT',
+    editable = false,
     ContactStore;
 
 function changeCurrentContact( id ) {
@@ -486,6 +470,7 @@ function removeContact( id ) {
 function addContact() {
 
     currentContact = utils.getId();
+    toggleEdit( true );
 
     contacts.push( {
         id: currentContact,
@@ -507,6 +492,10 @@ function updateContact( options ) {
     } );
 }
 
+function toggleEdit( newStatus ) {
+    editable = newStatus || !editable;
+}
+
 ContactStore = assign( {}, EventEmitter.prototype, {
 
     getAllContacts: function() {
@@ -515,6 +504,10 @@ ContactStore = assign( {}, EventEmitter.prototype, {
 
     getCurrentContact: function() {
         return currentContact;
+    },
+
+    isEditable: function() {
+        return editable;
     },
 
     addChangeListener: function( callback ) {
@@ -536,23 +529,27 @@ AppDispatcher.register( function( action ) {
 
         case AppConstants.CHANGE_CURRENT_CONTACT:
             changeCurrentContact( action.id );
-            ContactStore.emitChange();
             break;
+
         case AppConstants.DELETE_CONTACT:
             removeContact( action.id );
-            ContactStore.emitChange();
             break;
+
         case AppConstants.ADD_CONTACT:
             addContact();
-            ContactStore.emitChange();
             break;
+
         case AppConstants.UPDATE_CONTACT:
             updateContact( action.options );
-            ContactStore.emitChange();
             break;
+
+        case AppConstants.TOGGLE_EDIT:
+            toggleEdit();
+
         default:
             break;
     }
+    ContactStore.emitChange();
 } );
 
 module.exports = ContactStore;

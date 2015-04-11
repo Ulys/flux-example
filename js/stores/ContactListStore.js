@@ -50,6 +50,7 @@ var AppDispatcher = require( '../dispatcher/dispatcher.js' ),
         }
     ],
     CHANGE_EVENT = 'CHANGE_EVENT',
+    editable = false,
     ContactStore;
 
 function changeCurrentContact( id ) {
@@ -71,6 +72,7 @@ function removeContact( id ) {
 function addContact() {
 
     currentContact = utils.getId();
+    toggleEdit( true );
 
     contacts.push( {
         id: currentContact,
@@ -92,6 +94,10 @@ function updateContact( options ) {
     } );
 }
 
+function toggleEdit( newStatus ) {
+    editable = newStatus || !editable;
+}
+
 ContactStore = assign( {}, EventEmitter.prototype, {
 
     getAllContacts: function() {
@@ -100,6 +106,10 @@ ContactStore = assign( {}, EventEmitter.prototype, {
 
     getCurrentContact: function() {
         return currentContact;
+    },
+
+    isEditable: function() {
+        return editable;
     },
 
     addChangeListener: function( callback ) {
@@ -121,23 +131,27 @@ AppDispatcher.register( function( action ) {
 
         case AppConstants.CHANGE_CURRENT_CONTACT:
             changeCurrentContact( action.id );
-            ContactStore.emitChange();
             break;
+
         case AppConstants.DELETE_CONTACT:
             removeContact( action.id );
-            ContactStore.emitChange();
             break;
+
         case AppConstants.ADD_CONTACT:
             addContact();
-            ContactStore.emitChange();
             break;
+
         case AppConstants.UPDATE_CONTACT:
             updateContact( action.options );
-            ContactStore.emitChange();
             break;
+
+        case AppConstants.TOGGLE_EDIT:
+            toggleEdit();
+
         default:
             break;
     }
+    ContactStore.emitChange();
 } );
 
 module.exports = ContactStore;

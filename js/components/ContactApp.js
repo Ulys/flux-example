@@ -7,7 +7,8 @@ var React = require( 'react' ),
 function getAllContacts() {
     return {
         allContacts: ContactStore.getAllContacts(),
-        currentContact: ContactStore.getCurrentContact()
+        currentContact: ContactStore.getCurrentContact(),
+        isEditable: ContactStore.isEditable()
     }
 }
 
@@ -38,6 +39,7 @@ module.exports = React.createClass( {
                     contact = { this.state.allContacts.filter( ( function( element ) {
                         return element.id === this.state.currentContact;
                     } ).bind( this ) )[ 0 ] }
+                    isEditable = { this.state.isEditable }
                 />
                 <ContactList
                     contacts = { this.state.allContacts }

@@ -3,7 +3,7 @@
 
   list-style: none;
   padding: 0;
-  margin: 0;
+  margin: 20px 0;
 
   flex: 1 auto;
   order: 2;
@@ -11,6 +11,8 @@
   border: 2px solid grey;
   background: black;
   border-right: none;
+
+  min-width: 100px;
 
   &__item {
 
@@ -26,6 +28,13 @@
     background: #fff;
 
     transition: all linear 0.1s;
+
+    max-width: 300px;
+    min-width: 100px;
+
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
 
     &:hover {
 

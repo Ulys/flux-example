@@ -1,32 +1,17 @@
 
-var React = require( 'react' );
+var React = require( 'react' ),
+    AppActions = require( '../actions/actions' );
 
 module.exports = React.createClass( {
 
     propTypes: {
 
-    },
-
-    getInitialState: function() {
-        return {
-            editable: false
-        }
-    },
-
-    componentWillMount: function() {
-
-        this.setState( {
-            editable: this.props.editable
-        } );
+        isEditable: React.PropTypes.bool
     },
 
     _onClick: function() {
 
-        this.setState( {
-            editable: !this.state.editable
-        } );
-
-        this.props.callback();
+        AppActions.toggleEdit();
     },
 
     render: function() {
@@ -34,7 +19,7 @@ module.exports = React.createClass( {
         return (
             <div className = 'CA-editButton'
                 onClick = { this._onClick }>
-                { !this.state.editable ? 'Edit' : 'Save'}
+                { this.props.isEditable ? 'Save' : 'Edit'}
             </div>
         );
     }
